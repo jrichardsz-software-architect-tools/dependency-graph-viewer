@@ -310,7 +310,7 @@ Vue.component('dependency-graph', {
         .attr('y', (d) => captionYPadding + (lineMiddle + 5) +
           (lineHeight * this.linkTypes.indexOf(d)))
         .attr('class', 'caption')
-        .text((d) => d+" of");
+        .text((d) => d + " of");
 
       const classCaption = caption.append('g');
       classCaption.selectAll('circle')
@@ -382,10 +382,10 @@ Vue.component('dependency-graph', {
     },
     selectNode(d) {
       this.nodeMouseOut();
-      console.log($( "#artifactSelect" ).val());
-      console.log($( "#artifactSelect option:selected" ).text());
-      var position = parseInt($( "#artifactSelect" ).val());
-      var sourceNode = {class:"app", group:1, index:position, name:"", position:position};
+      console.log($("#artifactSelect").val());
+      console.log($("#artifactSelect option:selected").text());
+      var position = parseInt($("#artifactSelect").val());
+      var sourceNode = { class: "app", group: 1, index: position, name: "", position: position };
       console.log(sourceNode);
       this.nodeMouseOver(sourceNode);
       IS_SELECTED = true;
@@ -397,9 +397,9 @@ Vue.component('dependency-graph', {
     },
     nodeMouseOver(d) {
       console.log("this.selections");
-      console.log("IS_SELECTED:"+IS_SELECTED);
+      console.log("IS_SELECTED:" + IS_SELECTED);
 
-      if(IS_SELECTED === true) return
+      if (IS_SELECTED === true) return
 
       const graph = this.selections.graph
       const circle = graph.selectAll("circle")
@@ -449,7 +449,7 @@ Vue.component('dependency-graph', {
     },
     nodeMouseOut(d) {
 
-      if(IS_SELECTED === true) return
+      if (IS_SELECTED === true) return
 
       const graph = this.selections.graph
       const circle = graph.selectAll("circle")
@@ -506,13 +506,13 @@ new Vue({
       $('.ajax-loader').css("visibility", "visible");
 
       var url = new URL(location.href);
-      var graphsUrl = getLocationBasePath()+"/graph.json";
+      var graphsUrl = getLocationBasePath() + "/project/graph/data";
       console.log(graphsUrl);
 
       $.get(graphsUrl, null).done((graph) => {
-            this.data = graph;
-            this.nodesForSelect = graph.nodes;
-            $('.ajax-loader').css("visibility", "hidden");
+        this.data = graph;
+        this.nodesForSelect = graph.nodes;
+        $('.ajax-loader').css("visibility", "hidden");
       });
 
 
