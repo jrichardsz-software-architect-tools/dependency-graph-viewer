@@ -2,7 +2,7 @@ const knex = require("../config/mysql");
 
 const getAllTechnologies = async (req, res) => {
   try {
-    const response = await knex('technologies').select();
+    const response = await knex('technologies').select().orderBy('technologiesId', 'desc');
     res.send(response);
   } catch (err) {
     res.send(`[TECHNOLOGIES:GET_ALL] ${err}`);

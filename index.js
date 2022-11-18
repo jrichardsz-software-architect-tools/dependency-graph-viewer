@@ -8,7 +8,7 @@ var staticAssets = new serveStatic(__dirname + "/public", { 'index': ['default.h
 var variablesFolder = __dirname + "/variables";
 
 // set the port of our application
-var port = process.env.PORT || 2708;
+var port = process.env.PORT || 3000;
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

@@ -11,6 +11,7 @@ const {
   getProjectTechnologies,
   getProjectTechnologie,
   createProjectTechnologie,
+  registerProjectsTechnologies,
   getProjectTechnologiesGraph
 } = require("../controllers/ProjectTechnologies");
 
@@ -53,6 +54,11 @@ router.get("/detail/:id", getProjectTechnologie)
  * Create project detail
  */
 router.post("/detail/create", createProjectTechnologie)
+
+/**
+ * Register projects and their technologies
+ */
+router.post("/register", registerProjectsTechnologies)
 
 
 module.exports = router

@@ -171,9 +171,73 @@ const createProjectTechnologie = async (req, res) => {
   })
 }
 
+const registerProjectsTechnologies = async (req, res) => {
+  let projects = '';
+  req.on('data', (chunk) => projects += chunk);
+
+  req.on('end', async () => {
+    projects = JSON.parse(projects);
+    try {
+      for (const project of projects) {
+        let newProject = project.project;
+        let newClass = project.class;
+        let newTechnologies = project.technologies || null;
+
+        let projectId = await knex.select('projectId', 'project')
+          .from('projects')
+          .where('project', newProject);
+
+        if (projectId.length === 0) {
+          projectId = await knex('projects').insert({ project: newProject, class: newClass })
+          console.log(`Insert new project: ${newProject}`)
+        } else {
+          projectId = projectId[0].projectId;
+        }
+
+        if (newTechnologies) {
+          newTechnologies.map(async (technologie) => {
+            let technologiesId = await knex.select('technologiesId', 'technologie')
+              .from('technologies')
+              .where('technologie', technologie);
+
+            if (technologiesId.length === 0) {
+              technologiesId = await knex('technologies').insert({ technologie, class: 'technologie' })
+              console.log(`Insert new technologie: ${technologie}`)
+            } else {
+              technologiesId = technologiesId[0].technologiesId;
+            }
+
+            let projectTechnologiesId = await knex.select('projectTechnologiesId')
+              .from('project_technologies')
+              .where({
+                technologiesId: technologiesId,
+                projectId: projectId
+              });
+
+            if (projectTechnologiesId.length === 0) {
+              projectTechnologiesId = await knex('project_technologies')
+                .insert({
+                  technologiesId: technologiesId,
+                  projectId: projectId
+                })
+              console.log(`New project technology registered: ${projectTechnologiesId}`)
+            }
+          })
+        }
+      }
+
+      res.status(200).send('Register projects and their technologies')
+    } catch (err) {
+      console.log(`[PROJECT_TECHNOLOGIES:REGISTER_PROJECTS_AND_TECHNOLOGIES] ${err}`)
+      res.send(`[PROJECT_TECHNOLOGIES:REGISTER_PROJECTS_AND_TECHNOLOGIES] ${err}`);
+    }
+  })
+}
+
 module.exports = {
   getProjectTechnologie,
   getProjectTechnologies,
   createProjectTechnologie,
+  registerProjectsTechnologies,
   getProjectTechnologiesGraph
 }

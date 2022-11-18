@@ -2,7 +2,7 @@ const knex = require("../config/mysql")
 
 const getAllProjects = async (req, res) => {
   try {
-    const response = await knex('projects').select()
+    const response = await knex('projects').select().orderBy('projectId', 'desc');
     res.send(response)
   } catch (err) {
     res.send(`[PROJECTS:GET_ALL] ${err}`)
