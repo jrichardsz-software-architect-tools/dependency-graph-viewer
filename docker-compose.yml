@@ -1,20 +1,6 @@
 version: "3.7"
 
 services:
-  mysqldb:
-    container_name: mysqldb
-    image: mysql:5.7
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: dgv_database
-      MYSQL_ROOT_PASSWORD: 1234
-    networks:
-      net_graph_viewer:
-        aliases:
-          - graph_db_host
-    logging:
-      driver: none
 
   graph_viewer:
     container_name: graph_viewer
@@ -32,6 +18,21 @@ services:
       DB_PASS: 1234
       DB_NAME: dgv_database
       APP_PORT: 3000
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: dgv_database
+      MYSQL_ROOT_PASSWORD: 1234
+    networks:
+      net_graph_viewer:
+        aliases:
+          - graph_db_host
+    logging:
+      driver: none
 
 networks:
   net_graph_viewer:
