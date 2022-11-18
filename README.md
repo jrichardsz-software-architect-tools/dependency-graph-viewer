@@ -66,9 +66,15 @@ npm run start
 
 ## API ENDPOINTS
 
+Default values
+```
+DEFAULT HOST http://localhost
+DEFAULT PORT 3000
+```
+
 ### Projects
 
-```javascript
+```
 // Get all projects
 GET http://HOST:PORT/project
 
@@ -86,7 +92,7 @@ POST http://HOST:PORT/project/create
 
 ### Technologies
 
-```javascript
+```
 // Get all technologies
 GET http://HOST:PORT/technologie
 
@@ -105,33 +111,89 @@ POST http://HOST:PORT/technologie/create
 
 ### Project Technologies
 
-```javascript
-// Get projects details
+Get projects details
+
+```
 GET http://HOST:PORT/project/detail/all
+```
 
-// Get project details
+Get project details
+
+```
 GET http://HOST:PORT/project/detail/:id
+```
 
-// Register project detail
+Register project detail
+
+```
+POST http://HOST:PORT/project/detail/create
 BODY
 {
   "projectId":1,
   "technologiesId":1
 }
+```
 
-POST http://HOST:PORT/project/detail/create
+Register projects and their technologies
+
+```
+POST http://HOST:PORT/project/register
+BODY
+[
+  {
+    "project": "selenium-nodejs-starter",
+    "class":"project",
+    "technologies": [
+      "node",
+      "selenium",
+      "jest"
+    ]
+  },
+  {
+    "project": "zero-code-api",
+    "class":"project"
+  },
+  {
+    "project": "zero-code-ui",
+    "class":"project",
+    "technologies": [
+      "node",
+      "docker"
+    ]
+  },
+  {
+    "project": "heimdal-api",
+    "class":"project",
+    "technologies": [
+      "node",
+      "express",
+      "nodemon"
+    ]
+  },
+  {
+    "project": "heimdal-monitor",
+    "class":"project",
+    "technologies": [
+      "node",
+      "express",
+      "nodemon"
+    ]
+  }
+]
 
 ```
 
 ### Get data for the graph
 
-```javascript
+```
 GET http://HOST:PORT/project/graph/data
 
 ```
 
 After registering the data of the projects and their technologies,
 you could see something like this:
+
+Go to the application: http://localhost:3000
 
 ![image](https://i.ibb.co/rm87f9h/dependencies-sample.png)
 

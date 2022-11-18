@@ -1,24 +1,6 @@
 version: "3.7"
 
 services:
-
-  graph_viewer:
-    container_name: graph_viewer
-    build: .
-    ports:
-      - "3000:3000"
-    networks:
-      net_graph_viewer:
-        aliases:
-          - graph_app_host
-    environment:
-      DB_HOST: graph_db_host
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASS: 1234
-      DB_NAME: dgv_database
-      APP_PORT: 3000
-
   mysqldb:
     container_name: mysqldb
     image: mysql:5.7
@@ -31,6 +13,28 @@ services:
       net_graph_viewer:
         aliases:
           - graph_db_host
+    logging:
+      driver: none
+
+  graph_viewer:
+    container_name: graph_viewer
+    depends_on:
+      - mysqldb
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: graph_db_host
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: 1234
+      DB_NAME: dgv_database
+      APP_PORT: 3000
+    restart: always
+    networks:
+      net_graph_viewer:
+        aliases:
+          - graph_app_host
     logging:
       driver: none
 
