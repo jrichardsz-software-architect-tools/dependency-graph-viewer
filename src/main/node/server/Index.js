@@ -23,7 +23,7 @@ var jsonEnv = new JsonEnv();
 var pageVariables = jsonEnv.loadJsonFile(path.join(process.env.npm_config_local_prefix, "src","main","node", "server", "settings.json"));
 
 var cmdbHelper = new CmdbHelper();
-var cmdb = cmdbHelper.readFromYaml(path.join(process.env.npm_config_local_prefix, "src","main","node", "server", "cmdb.yaml"));
+var cmdb = cmdbHelper.readFromYaml(process.env.CMDB_YAML_FILE_LOCATION || path.join(process.env.npm_config_local_prefix, "src","main","node", "server", "cmdb.yaml"));
 console.log(JSON.stringify(cmdb, null, 4));
 
 /*Optional security*/

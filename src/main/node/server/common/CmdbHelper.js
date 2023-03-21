@@ -10,7 +10,7 @@ function CmdbHelper() {
     var nodes = [];
     var appByName = {};
     var position = 0;
-    for (var appName of Object.keys(yamlObject)) {
+    for (var appName of Object.keys(yamlObject).sort()) {
       
       var dependencies = yamlObject[appName];
       

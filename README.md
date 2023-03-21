@@ -1,5 +1,6 @@
 # Dependency Graph Viewer
 
+
 Minimal web to view a graphs
 
 # Use Cases
@@ -10,40 +11,17 @@ Minimal web to view a graphs
 
 # Data
 
-Just add relationships in **/graph.json**
+Just add relationships in **./src/main/node/server/cmdb.yaml**
 
 ```
-{
-  "nodes": [
-    {
-      "name": "web",
-      "position": 0,
-      "class": "web"
-    },
-    {
-      "name": "api",
-      "position": 1,
-      "class": "api"
-    },
-    {
-      "name": "database",
-      "position": 2,
-      "class": "database"
-    }
-  ],
-  "links": [
-    {
-      "source": 0,
-      "target": 1,
-      "type": "depends"
-    },
-    {
-      "source": 1,
-      "target": 2,
-      "type": "depends"
-    }
-  ]
-}
+acme-api:
+  - acme-db
+  - acme-security
+acme-web:
+  - acme-api
+acme-db:
+
+acme-security:
 ```
 
 # Steps
@@ -67,6 +45,13 @@ You could see something like this:
 
 ![image](https://i.ibb.co/rm87f9h/dependencies-sample.png)
 
+# Custom data
+
+If you don't want to have your data in the git repository, add this variable and restart the app
+
+```
+export CMDB_YAML_FILE_LOCATION=/foo/bar/data.yaml
+```
 
 # Made with
 
