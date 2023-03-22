@@ -45,12 +45,13 @@ You could see something like this:
 
 ![image](https://i.ibb.co/rm87f9h/dependencies-sample.png)
 
-# Custom data
+# Custom settings
 
 If you don't want to have your data in the git repository, add this variable and restart the app
 
 ```
 export CMDB_YAML_FILE_LOCATION=/foo/bar/data.yaml
+export WEB_TITLE="Dependency Graph Viewer"
 ```
 
 # Made with

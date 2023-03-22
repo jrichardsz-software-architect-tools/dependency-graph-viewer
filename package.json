@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/main/node/server/Index.js",
-    "dev": "supervisor -e 'ejs|js|css|js|html|json' server/Index.js",
+    "dev": "supervisor -w src/main,/home/rleoni/Backup/cmdb_usil.yaml -e 'ejs|js|css|js|html|yaml|json' src/main/node/server/Index.js",
     "badges": "badges4cov --source=nyc_json --nyc_json_file_location=./coverage/coverage-summary.json --output_folder=./coverage",
     "test": "./src/test/test.sh"
   },
@@ -12,6 +12,7 @@
     "ejs": "3.0.2",
     "express": "4.17.1",
     "express-basic-auth": "^1.2.0",
+    "express-rate-limit": "^6.7.0",
     "js-yaml": "^4.1.0",
     "nodejs-require-enhancer": "github:jrichardsz/nodejs-require-enhancer#1.0.0-beta",
     "serve-static": "1.14.1",

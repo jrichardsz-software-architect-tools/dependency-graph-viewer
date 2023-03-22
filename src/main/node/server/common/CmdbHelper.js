@@ -25,16 +25,11 @@ function CmdbHelper() {
       position++;
     }
 
-    console.log((JSON.stringify(nodes)));
-
     var links = [];
     for (var key in nodes) {
       var node = nodes[key];
 
       var dependencies = node.dependencies;
-      console.log("app:" + node.name)
-      console.log("dependencies:")
-      console.log(JSON.stringify(dependencies))
       if (typeof dependencies === 'undefined' || (dependencies && dependencies.length && dependencies.length == 0)) {
         continue;
       }
@@ -45,9 +40,6 @@ function CmdbHelper() {
         if (dependency && dependency.length && dependency.length == 0) {
           continue;
         }
-
-        console.log("dependency:" + dependency)
-        console.log("position:" + appByName[dependency])
 
         links.push({
           "source": node.position,

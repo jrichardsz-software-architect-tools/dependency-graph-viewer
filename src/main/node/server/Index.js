@@ -6,6 +6,7 @@ const serveStatic = require('serve-static')
 const path = require('path');
 const yaml = require('js-yaml');
 const fs   = require('fs');
+const rateLimit = require('express-rate-limit');
 var CmdbHelper = include('/src/main/node/server/common/CmdbHelper.js');
 const staticAssets = new serveStatic(
   path.join(process.env.npm_config_local_prefix, "src","main","node", "web"), { 'index': ['default.html', 'default.htm'] })
@@ -24,7 +25,15 @@ var pageVariables = jsonEnv.loadJsonFile(path.join(process.env.npm_config_local_
 
 var cmdbHelper = new CmdbHelper();
 var cmdb = cmdbHelper.readFromYaml(process.env.CMDB_YAML_FILE_LOCATION || path.join(process.env.npm_config_local_prefix, "src","main","node", "server", "cmdb.yaml"));
-console.log(JSON.stringify(cmdb, null, 4));
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+// Apply the rate limiting middleware to all requests
 
 /*Optional security*/
 if(process.env.ENABLE_SECURITY == "true"){
@@ -40,11 +49,15 @@ if(process.env.ENABLE_SECURITY == "true"){
 }
 
 
-app.get('/graph.json', function(req, res, next) {
+app.get('/status', function(req, res, next) {
+  res.json({message:"success"});
+});
+
+app.get('/graph.json', limiter, function(req, res, next) {
   res.json(cmdb);
 });
 
-app.get('*', function(req, res, next) {
+app.get('*', limiter, function(req, res, next) {
     if(req.path === "/"){      
       res.render('index.html', pageVariables);
     }else{
