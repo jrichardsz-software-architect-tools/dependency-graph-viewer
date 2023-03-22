@@ -11,8 +11,8 @@ Vue.component('dependency-graph', {
       </pattern>
     </defs>
   </svg>
-</div>`,
-  props: ['data'],
+  </div>`,
+  props: ['data', 'inputsearch'],
   data() {
     return {
       width: 1024,
@@ -93,7 +93,7 @@ Vue.component('dependency-graph', {
 
     //all - (header height +  heightPadding)*K
     var heightPadding = 32;
-    this.height = window.innerHeight - (heightPadding + document.getElementById("header").offsetHeight)*1.22
+    this.height = window.innerHeight - (heightPadding + document.getElementById("header").offsetHeight)*1.29
     
     this.simulation = d3.forceSimulation()
       .force("link", d3.forceLink())
@@ -386,9 +386,10 @@ Vue.component('dependency-graph', {
     },
     selectNode(d) {
       this.nodeMouseOut();
-      console.log($( "#artifactSelect" ).val());
-      console.log($( "#artifactSelect option:selected" ).text());
-      var position = parseInt($( "#artifactSelect" ).val());
+      // console.log($( "#artifactSelect" ).val(), "artifact value");
+      // console.log($( "#artifactSelect option:selected" ).text());
+      // var position = parseInt($( "#artifactSelect" ).val());
+      var position = parseInt(this.inputsearch.position);
       var sourceNode = {class:"app", group:1, index:position, name:"", position:position};
       console.log(sourceNode);
       this.nodeMouseOver(sourceNode);
@@ -397,7 +398,8 @@ Vue.component('dependency-graph', {
     restart(d) {
       IS_SELECTED = false;
       this.nodeMouseOut();
-      $("#artifactSelect").val($("#artifactSelect option:first").val());
+      // $("#artifactSelect").val($("#artifactSelect option:first").val());
+      this.restartInputSearch()
     },
     nodeMouseOver(d) {
       console.log("this.selections");
@@ -475,6 +477,9 @@ Vue.component('dependency-graph', {
       circle.filter((td) => td === d)
         .classed('selected', true)
     },
+    restartInputSearch(){
+      this.$emit("restar-input-search") ;
+    }
   },
   watch: {
     data: {
@@ -492,17 +497,19 @@ Vue.component('dependency-graph', {
     }
   }
 })
-
 new Vue({
   el: '#app',
   data() {
     return {
       nodesForSelect: null,
-      data: null
+      data: null,
+      inputsearch: null,
     }
   },
   mounted() {
     this.changeData();
+  },
+  components: {
   },
   methods: {
     changeData() {
@@ -518,8 +525,19 @@ new Vue({
             this.nodesForSelect = graph.nodes;
             $('.ajax-loader').css("visibility", "hidden");
       });
-
-
-    }
+    },
+    onRestarInputSearch(){
+      this.inputsearch = null
+    },
+    selectNodeOption() {
+      console.log(this.inputsearch, "newww");
+    },
+    getOptionLabel (option) {
+      console.log(option, ".....");
+      return (option && option.name) || ''
+    },
+    
   }
 })
+
+Vue.component('vue-select', VueSelect.VueSelect);

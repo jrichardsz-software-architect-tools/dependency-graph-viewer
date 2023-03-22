@@ -21,10 +21,10 @@ app.set('views',path.join(process.env.npm_config_local_prefix, "src","main","nod
 app.engine('html', require('ejs').renderFile);
 
 var jsonEnv = new JsonEnv();
-var pageVariables = jsonEnv.loadJsonFile(path.join(process.env.npm_config_local_prefix, "src","main","node", "server", "settings.json"));
+var pageVariables = jsonEnv.loadJsonFile(path.join(process.env.npm_config_local_prefix, "src","main", "resources", "settings.json"));
 
 var cmdbHelper = new CmdbHelper();
-var cmdb = cmdbHelper.readFromYaml(process.env.CMDB_YAML_FILE_LOCATION || path.join(process.env.npm_config_local_prefix, "src","main","node", "server", "cmdb.yaml"));
+var cmdb = cmdbHelper.readFromYaml(process.env.CMDB_YAML_FILE_LOCATION || path.join(process.env.npm_config_local_prefix, "src","main", "resources", "cmdb.yaml"));
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -33,7 +33,9 @@ const limiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
-// Apply the rate limiting middleware to all requests
+app.get('/status', function(req, res, next) {
+  res.json({message:"success"});
+});
 
 /*Optional security*/
 if(process.env.ENABLE_SECURITY == "true"){
@@ -47,11 +49,6 @@ if(process.env.ENABLE_SECURITY == "true"){
       challenge: true
   }))
 }
-
-
-app.get('/status', function(req, res, next) {
-  res.json({message:"success"});
-});
 
 app.get('/graph.json', limiter, function(req, res, next) {
   res.json(cmdb);

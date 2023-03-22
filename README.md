@@ -1,4 +1,4 @@
-# Dependency Graph Viewer
+#  Graph Viewer
 
 
 Minimal web to view a graphs
@@ -24,7 +24,7 @@ acme-db:
 acme-security:
 ```
 
-# Steps
+# Launch app manually
 
 - npm install
 - export these values
@@ -45,6 +45,21 @@ You could see something like this:
 
 ![image](https://i.ibb.co/rm87f9h/dependencies-sample.png)
 
+# Launch app with docker
+
+Build
+
+```
+docker build -t $(basename "$PWD") .
+```
+
+run:
+
+
+```
+docker run -d --name $(basename "$PWD") -p 8080:2708 -e WEB_TITLE="Dependency Graph Viewer" $(basename "$PWD")
+```
+
 # Custom settings
 
 If you don't want to have your data in the git repository, add this variable and restart the app
@@ -62,3 +77,7 @@ export WEB_TITLE="Dependency Graph Viewer"
 # License
 
 MIT
+
+# Contributor
+
+- JRichardsz
