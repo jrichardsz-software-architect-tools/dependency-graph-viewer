@@ -1,0 +1,23 @@
+payment-api:
+  - ecommerce-db
+customer-api:
+  - ecommerce-db  
+blog-api:
+  - mongo-db  
+promotions-api:
+merchandising-api:
+search-api:
+user-profile-api:
+campaign-api:
+loyalty-api:
+inventory-api:
+discount-api:
+  - mysql-db    
+ecommerce-web:
+  - payment-api
+  - customer-api
+  - blog-api
+  - inventory-api
+ecommerce-db: {}
+mongo-db : {}
+mysql-db : {}    

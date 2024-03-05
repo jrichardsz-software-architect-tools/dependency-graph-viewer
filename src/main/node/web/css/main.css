@@ -1,3 +1,16 @@
+.custom-vue-select {
+  display: inline-flex;
+  width: clamp(500px, 20vw, 300px);
+}
+.vs__dropdown-toggle {
+  width: 100%;
+}
+.vs__search::placeholder{
+  font-weight: 100;
+  opacity: 0.5;
+  font-size: 14px;
+}
+
 .faded {
   opacity: 0.1;
   transition: 0.3s opacity;
